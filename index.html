@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For My Lilly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Poppins:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-color: #fefcfb;
+        --text-color: #5c4b51;
+        --primary-color: #a25b6a;
+        --accent-color: #e8c2ca;
+        --gold-color: #d4af37;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      .section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 5em 2em;
+        box-sizing: border-box;
+        position: relative;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+      }
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .content-wrapper {
+        max-width: 750px;
+        width: 100%;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 700;
+        color: var(--primary-color);
+        letter-spacing: 1px;
+      }
+      h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        margin: 0;
+      }
+      h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
+      }
+      p {
+        line-height: 1.8;
+        font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+      }
+      .caption {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.3em;
+        margin-top: 1.5em;
+      }
+
+      #hero {
+        background: linear-gradient(
+            135deg,
+            rgba(254, 252, 251, 0.95),
+            rgba(232, 194, 202, 0.3)
+          ),
+          radial-gradient(circle at 30% 70%, rgba(162, 91, 106, 0.1) 0%, transparent 50%);
+        background-size: cover;
+        background-position: center;
+      }
+      .scroll-down {
+        margin-top: 2rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.8rem;
+      }
+      .scroll-down span {
+        display: block;
+      }
+      .arrow {
+        border: solid var(--primary-color);
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 4px;
+        transform: rotate(45deg);
+        margin-top: 10px;
+      }
+
+      /* ▼▼▼ FOOLPROOF LETTER STYLES ▼▼▼ */
+      #the-letter {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 4em;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        position: relative;
+        border: 3px solid var(--primary-color);
+        backdrop-filter: blur(10px);
+        margin: 2em 0;
+      }
+      #letter-text {
+        font-family: "Cormorant Garamond", serif;
+        text-align: left;
+        white-space: pre-wrap;
+        font-weight: 400; /* BOLD was a bit hard to read for a long letter, using regular for clarity */
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        line-height: 1.8;
+        color: var(--text-color);
+        position: relative; /* This ensures text is above flowers */
+        z-index: 2;
+        margin: 0;
+      }
+      .floral-decorator {
+        position: absolute;
+        width: clamp(100px, 18vw, 150px);
+        height: auto;
+        pointer-events: none;
+        z-index: 1; /* Behind the text */
+      }
+      .floral-decorator img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(162, 91, 106, 0.2));
+      }
+      .top-left {
+        top: 15px; /* Tucked INSIDE the border */
+        left: 15px;
+      }
+      .bottom-right {
+        bottom: 15px; /* Tucked INSIDE the border */
+        right: 15px;
+        transform: rotate(180deg);
+      }
+      /* ▲▲▲ END OF FIXED LETTER STYLES ▲▲▲ */
+
+      #reasons ul {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+        display: inline-block;
+      }
+      #reasons li {
+        font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+        padding-left: 50px;
+        position: relative;
+        margin-bottom: 1em;
+      }
+      #reasons li::before {
+        content: "🌸";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5em;
+      }
+
+      #lilly .lily-image {
+        max-width: 400px;
+        width: 80%;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(92, 75, 81, 0.15);
+        margin-top: 2em;
+      }
+
+      #lock-key .interaction-area {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        max-width: 500px;
+        margin: 2em auto 0;
+      }
+      #key-svg {
+        position: absolute;
+        left: 10%;
+        top: 50%;
+        transform: translateY(-50%) rotate(-20deg);
+        width: 80px;
+        cursor: grab;
+        z-index: 10;
+        transition: transform 0.3s ease, opacity 0.5s ease;
+      }
+      #key-svg:active {
+        cursor: grabbing;
+        transform: translateY(-50%) rotate(0deg) scale(1.1);
+      }
+      #lock-svg {
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 120px;
+      }
+      #lock-shackle {
+        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        transform-origin: center;
+      }
+      #lock-svg.unlocked #lock-shackle {
+        transform: translateY(-20px) rotate(-35deg);
+      }
+      #unlock-message {
+        opacity: 0;
+        transition: opacity 1s ease 0.5s;
+      }
+      #unlock-message.visible {
+        opacity: 1;
+      }
+
+      .heart-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(4, 140px);
+        max-width: 700px;
+        margin: 2em auto;
+        gap: 15px;
+        grid-template-areas: 
+          ". . img1 . ."
+          ". img2 img3 img4 ."
+          "img5 img6 img7 img8 img9"
+          "img10 img11 img12 img13 img14"
+          ". img15 img16 img17 .";
+      }
+      .grid-item {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transform: scale(0.8) rotate(5deg);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        position: relative;
+      }
+      .grid-item:hover {
+        transform: scale(1.05) rotate(0deg);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+      }
+      .grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      .grid-item:hover img {
+        transform: scale(1.1);
+      }
+      .img-1 { grid-area: img1; } .img-2 { grid-area: img2; } .img-3 { grid-area: img3; } .img-4 { grid-area: img4; } .img-5 { grid-area: img5; } .img-6 { grid-area: img6; } .img-7 { grid-area: img7; } .img-8 { grid-area: img8; } .img-9 { grid-area: img9; } .img-10 { grid-area: img10; } .img-11 { grid-area: img11; } .img-12 { grid-area: img12; } .img-13 { grid-area: img13; } .img-14 { grid-area: img14; } .img-15 { grid-area: img15; } .img-16 { grid-area: img16; } .img-17 { grid-area: img17; }
+      #gallery.visible .grid-item { opacity: 1; transform: scale(1) rotate(0deg); }
+      #gallery.visible .grid-item:nth-child(1) { transition-delay: 0.1s; } #gallery.visible .grid-item:nth-child(2) { transition-delay: 0.15s; } #gallery.visible .grid-item:nth-child(3) { transition-delay: 0.2s; } #gallery.visible .grid-item:nth-child(4) { transition-delay: 0.25s; } #gallery.visible .grid-item:nth-child(5) { transition-delay: 0.3s; } #gallery.visible .grid-item:nth-child(6) { transition-delay: 0.35s; } #gallery.visible .grid-item:nth-child(7) { transition-delay: 0.4s; } #gallery.visible .grid-item:nth-child(8) { transition-delay: 0.45s; } #gallery.visible .grid-item:nth-child(9) { transition-delay: 0.5s; } #gallery.visible .grid-item:nth-child(10) { transition-delay: 0.55s; } #gallery.visible .grid-item:nth-child(11) { transition-delay: 0.6s; } #gallery.visible .grid-item:nth-child(12) { transition-delay: 0.65s; } #gallery.visible .grid-item:nth-child(13) { transition-delay: 0.7s; } #gallery.visible .grid-item:nth-child(14) { transition-delay: 0.75s; } #gallery.visible .grid-item:nth-child(15) { transition-delay: 0.8s; } #gallery.visible .grid-item:nth-child(16) { transition-delay: 0.85s; } #gallery.visible .grid-item:nth-child(17) { transition-delay: 0.9s; }
+
+      #reassurance .hugs-kisses-container { position: relative; margin-top: 2em; }
+      #hugs-kisses-button { background: var(--primary-color); color: white; border: none; padding: 15px 35px; font-family: "Poppins", sans-serif; font-size: 1.1em; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(162, 91, 106, 0.3); }
+      #hugs-kisses-button:hover { background: #7c4451; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(162, 91, 106, 0.4); }
+      #hugs-kisses-button:disabled { background-color: #cccccc; cursor: not-allowed; transform: none; box-shadow: none; }
+      @keyframes float-up { to { transform: translateY(-200px); opacity: 0; } }
+      .xoxo-particle { position: absolute; bottom: 0; left: 50%; animation: float-up 3s ease-out forwards; font-size: 2em; pointer-events: none; }
+
+      #footer { padding-bottom: 6em; }
+      #footer h3 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 400; }
+
+      #music-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.5s ease; }
+      .modal-content { background: var(--bg-color); padding: 3em 4em; border-radius: 20px; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); border: 2px solid var(--primary-color); }
+      .modal-content h2 { margin-top: 0; color: var(--primary-color); }
+      .modal-content button { background: var(--primary-color); color: white; border: none; padding: 15px 35px; font-family: "Poppins", sans-serif; font-size: 1.1em; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; margin-top: 1em; box-shadow: 0 4px 15px rgba(162, 91, 106, 0.3); }
+      .modal-content button:hover { background: #7c4451; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(162, 91, 106, 0.4); }
+
+      #hero.visible h1 { animation: fadeInUp 1s ease-out 0.5s both; }
+      #hero.visible .scroll-down { animation: fadeInUp 1s ease-out 1s both; }
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 768px) {
+        .heart-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(6, 120px); grid-template-areas: ". img1 ." "img2 img3 img4" "img5 img6 img7" "img8 img9 img10" "img11 img12 img13" ". img14 ."; }
+        .img-15, .img-16, .img-17 { display: none; }
+      }
+      
+    </style>
+  </head>
+  <body>
+
+    <div id="music-modal">
+      <div class="modal-content">
+        <h2>💕 For My Love 💕</h2>
+        <p>A special journey created just for you, Lilly</p>
+        <button id="play-music-button">Begin Our Journey ✨</button>
+      </div>
+    </div>
+    
+    <audio id="bgm" loop>
+      <source src="Until I Found You - Stephen Sanchez (AI Filtered Instrumental).mp3" type="audio/mpeg" />
+    </audio>
+
+    <main>
+      <section id="hero" class="section">
+        <div class="content-wrapper">
+          <h1>For My Dearest Lilly</h1>
+          <p class="scroll-down">
+            <span>Happy Girlfriend's Day</span>
+            <div class="arrow"></div>
+          </p>
+        </div>
+      </section>
+
+      <!-- ▼▼▼ THIS IS THE NEW, FIXED LETTER SECTION ▼▼▼ -->
+      <section id="letter" class="section">
+        <div class="content-wrapper">
+          <div id="the-letter">
+            <div class="floral-decorator top-left">
+              <!-- IMPORTANT: REPLACE THIS EXAMPLE LINK with the URL of YOUR uploaded flower -->
+              <img src="flora-removebg-preview (1).png" />
+            </div> <br> <br>
+            <p id="letter-text">My Love,
+Happy Girlfriends Day, baby. Today isn't just another day, it's a reminder that I've been blessed with the most beautiful, strong, and loving person as my girlfriend. You are the best girlfriend for me, and even that feels like an understatement. You are my world, my peace, my whole heart. There's something about you that no words could ever fully describe. The way you love, the way you care, the way you show up even when you're tired, broken, or overwhelmed, is nothing short of incredible. I love you not just for what you do, but for who you are. You make loving you the easiest, most natural thing in the world. Your eyes, God, your eyes. They hold galaxies. They carry stories. They calm me down without a single word. When I look into them, I see safety. I see comfort. I see a lifetime. Those eyes have seen pain, and yet they shine with softness and strength. You have no idea how often I get lost in them, how often I find myself in them. Your smile, that's the only thing that makes me live. You feel like home to me. When I'm with you, everything just makes sense. Even in silence, even in chaos, your presence grounds me. You don't have to say anything, just being next to you is enough to remind me that I'm loved. You are more than enough, always have been, always will be. Don't ever doubt that. your love is noticed. You don't have to be more, do more, prove more. Just being you is everything I need. I admire your strength, your heart, your softness, your chaos, all of it. I love all the versions of you, even the ones you try to hide. I love us. I love what we have, what we've built, what we're still becoming. Through every fight, every cuddle, every random text, every shared moment, I've fallen deeper into you. And I wouldn't want it any other way. You're not just my girlfriend, Thalli. You're my wife. You're my person. You're the one I want to build with, grow with, laugh and cry with, forever. There's no label big enough to hold what you mean to me, but if I had to say it simply, You are my everything. And before I end this letter, I want you to know one more thing, I am so proud of you. proud of how you keep going, proud of the woman you are. No matter what life throws at you, I'm here. And being by your side through it all is my biggest honor. I love you, I love us, I love this journey we're on together. You are my girlfriend, my wife, my heart, my forever.
+<br>
+Always yours,
+Your Husband.</p>
+            <div class="floral-decorator bottom-right">
+              <!-- IMPORTANT: REPLACE THIS EXAMPLE LINK with the URL of YOUR uploaded flower -->
+              <img src="flora-removebg-preview (1).png" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ▲▲▲ END OF FIXED LETTER SECTION ▲▲▲ -->
+
+      <section id="reasons" class="section">
+        <div class="content-wrapper">
+          <h2>A Few of My Favorite Things About You...</h2>
+          <ul>
+            <li>I love you because you feel like home.</li>
+            <li>I love you because you've been through a lot, yet you're still so soft and kind.</li>
+            <li>I love you because you always try, even when it's hard.</li>
+            <li>I love you because you listen, even to the things I don't say out loud.</li>
+            <li>I love you because you make me want to be better.</li>
+            <li>I love you because your presence alone calms my chaos.</li>
+            <li>I love you because you've seen my flaws and still choose me.</li>
+            <li>I love you because your heart is so pure, even when the world hasn't been fair to you.</li>
+            <li>I love you because you make the smallest moments feel special.</li>
+            <li>I love you because you've taught me what real love feels like.</li>
+            <li>I love you because I'm soo Proud of you.</li>
+          </ul>
+          <p class="caption" style="margin-top: 2em">
+            But honestly,<br />Loving you doesn't need a reason.<br />Loving you is the reason.
+          </p>
+        </div>
+      </section>
+
+      <section id="lilly" class="section">
+        <div class="content-wrapper">
+          <h2>All the lilies, For My Lilly</h2>
+          <img src="lillies.462Z.png" alt="A beautiful lily" class="lily-image" />
+          <p class="caption">
+            Wish I could give you all the flowers, but for now I made these lilies due to the distance and you being in home. I'll remember, I owe you a garden of flowers, you too remember that. These are the symbol of your beauty, your grace, and how you brighten my entire world.
+          </p>
+        </div>
+      </section>
+      
+      <section id="lock-key" class="section">
+        <div class="content-wrapper">
+          <h2>You Hold the Key</h2>
+          <p>Drag the key to the lock to unlock our memories.</p>
+          <div class="interaction-area">
+            <svg id="key-svg" viewBox="0 0 100 100">
+              <path d="M63.6,16.2c-8.1,0-14.7,6.6-14.7,14.7c0,3.1,1,6,2.6,8.4l-33,33.1c-2,2-2,5.3,0,7.3c2,2,5.3,2,7.3,0l33-33.1 c2.4,1.6,5.3,2.6,8.4,2.6c8.1,0,14.7-6.6,14.7-14.7S71.7,16.2,63.6,16.2z M63.6,39.6c-4.8,0-8.7-3.9-8.7-8.7s3.9-8.7,8.7-8.7 s8.7,3.9,8.7,8.7S68.4,39.6,63.6,39.6z" fill="var(--gold-color)" />
+              <path d="M25.8,58.3l-7.3,7.3c-2,2-5.3,2-7.3,0s-2-5.3,0-7.3l7.3-7.3" fill="var(--gold-color)" />
+            </svg>
+            <svg id="lock-svg" viewBox="0 0 100 100">
+              <path id="lock-body" d="M80,45.2H20c-5.5,0-10,4.5-10,10v35c0,5.5,4.5,10,10,10h60c5.5,0,10-4.5,10-10v-35C90,49.7,85.5,45.2,80,45.2z M50,77.2c-4.1,0-7.5-3.4-7.5-7.5s3.4-7.5,7.5-7.5s7.5,3.4,7.5,7.5S54.1,77.2,50,77.2z" fill="var(--gold-color)" />
+              <path id="lock-shackle" d="M67.5,20.2v15c0,2.8-2.2,5-5,5h-25c-2.8,0-5-2.2-5-5v-15c0-8.3,6.7-15,15-15h5C60.8,5.2,67.5,11.9,67.5,20.2z" fill="var(--gold-color)" />
+            </svg>
+          </div>
+          <p id="unlock-message" class="caption">
+            You unlocked my heart, and it's yours forever. 💕
+          </p>
+        </div>
+      </section>
+
+      <section id="gallery" class="section">
+        <div class="content-wrapper">
+          <h2>A Heart Full of Our Memories <br />and You</h2>
+          <div class="heart-grid">
+            <div class="grid-item img-1"><img src="1.jpg" alt="Memory 1" /></div>
+            <div class="grid-item img-2"><img src="2.jpg" alt="Memory 2" /></div>
+            <div class="grid-item img-3"><img src="7.jpg" alt="Memory 3" /></div>
+            <div class="grid-item img-4"><img src="3.jpg" alt="Memory 4" /></div>
+            <div class="grid-item img-5"><img src="6.jpg" alt="Memory 5" /></div>
+            <div class="grid-item img-6"><img src="9.jpg" alt="Memory 6" /></div>
+            <div class="grid-item img-7"><img src="5.jpg" alt="Memory 7" /></div>
+            <div class="grid-item img-8"><img src="8.jpg" alt="Memory 8" /></div>
+            <div class="grid-item img-9"><img src="16.jpg" alt="Memory 9" /></div>
+            <div class="grid-item img-10"><img src="11.jpg" alt="Memory 10" /></div>
+            <div class="grid-item img-11"><img src="17.jpg" alt="Memory 11" /></div>
+            <div class="grid-item img-12"><img src="14.jpg" alt="Memory 12" /></div>
+            <div class="grid-item img-13"><img src="15.jpg" alt="Memory 13" /></div>
+            <div class="grid-item img-14"><img src="13.jpg" alt="Memory 14" /></div>
+            <div class="grid-item img-15"><img src="18.jpg" alt="Memory 15" /></div>
+            <div class="grid-item img-16"><img src="10.jpg" alt="Memory 16" /></div>
+            <div class="grid-item img-17"><img src="19.jpg" alt="Memory 17" /></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reassurance" class="section">
+        <div class="content-wrapper">
+          <h2>For When You Miss Me</h2>
+          <p class="caption">
+            No matter how many miles are between us, my heart is always right there with you.<br />This distance is just a chapter, not our whole story.
+          </p>
+          <div class="hugs-kisses-container">
+            <button id="hugs-kisses-button">Click for Hugs & Kisses 💌</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="footer" class="section">
+        <div class="content-wrapper">
+          <h3>Made with love,<br />Bharath ❤️</h3>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- General Setup ---
+        const musicModal = document.getElementById("music-modal");
+        const playMusicButton = document.getElementById("play-music-button");
+        const bgm = document.getElementById("bgm");
+        
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.25 }
+        );
+        
+        document.querySelectorAll(".section").forEach((section) => {
+          observer.observe(section);
+        });
+        
+        playMusicButton.addEventListener("click", () => {
+          bgm.play().catch((e) => console.error("Audio playback failed:", e));
+          musicModal.style.opacity = "0";
+          setTimeout(() => (musicModal.style.display = "none"), 500);
+        });
+
+        // --- Hugs & Kisses Button Logic ---
+        const hugsKissesButton = document.getElementById("hugs-kisses-button");
+        const container = document.querySelector(".hugs-kisses-container");
+        
+        hugsKissesButton.addEventListener("click", () => {
+          hugsKissesButton.disabled = true;
+          for (let i = 0; i < 20; i++) {
+            const particle = document.createElement("div");
+            particle.classList.add("xoxo-particle");
+            particle.textContent = Math.random() > 0.5 ? "🫂" : "💋";
+            particle.style.left = `${Math.random() * 60 - 30}%`;
+            particle.style.fontSize = `${Math.random() * 20 + 20}px`;
+            particle.style.animationDuration = `${Math.random() * 2 + 2}s`;
+            particle.style.animationDelay = `${i * 0.1}s`;
+            container.appendChild(particle);
+            setTimeout(() => { if (particle.parentNode) { particle.remove(); } }, 4000);
+          }
+          setTimeout(() => { hugsKissesButton.disabled = false; }, 2000);
+        });
+
+        // --- Lock and Key Section Logic ---
+        const key = document.getElementById("key-svg");
+        const lock = document.getElementById("lock-svg");
+        const unlockMessage = document.getElementById("unlock-message");
+        const interactionArea = document.querySelector("#lock-key .interaction-area");
+        let isDragging = false, isUnlocked = false, offsetX = 0, offsetY = 0;
+        
+        function startDrag(e) {
+          if (isUnlocked) return;
+          isDragging = true;
+          key.style.transition = "none";
+          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          const keyRect = key.getBoundingClientRect();
+          offsetX = clientX - keyRect.left;
+          offsetY = clientY - keyRect.top;
+          e.preventDefault();
+        }
+        
+        function drag(e) {
+          if (!isDragging || isUnlocked) return;
+          e.preventDefault();
+          let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          const areaRect = interactionArea.getBoundingClientRect();
+          let x = clientX - areaRect.left - offsetX;
+          let y = clientY - areaRect.top - offsetY;
+          x = Math.max(0, Math.min(x, areaRect.width - key.clientWidth));
+          y = Math.max(0, Math.min(y, areaRect.height - key.clientHeight));
+          key.style.left = `${x}px`;
+          key.style.top = `${y}px`;
+        }
+        
+        function endDrag(e) {
+          if (!isDragging || isUnlocked) return;
+          isDragging = false;
+          key.style.transition = "transform 0.3s ease, opacity 0.5s ease";
+          const keyRect = key.getBoundingClientRect();
+          const lockRect = lock.getBoundingClientRect();
+          if (
+            keyRect.right > lockRect.left &&
+            keyRect.left < lockRect.right &&
+            keyRect.bottom > lockRect.top &&
+            keyRect.top < lockRect.bottom
+          ) {
+            isUnlocked = true;
+            key.style.opacity = "0";
+            lock.classList.add("unlocked");
+            unlockMessage.classList.add("visible");
+          }
+        }
+        
+        key.addEventListener("mousedown", startDrag);
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", endDrag);
+        key.addEventListener("touchstart", startDrag, { passive: false });
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("touchend", endDrag);
+        key.addEventListener("contextmenu", (e) => e.preventDefault());
+      });
+    </script>
+  </body>
+</html>
